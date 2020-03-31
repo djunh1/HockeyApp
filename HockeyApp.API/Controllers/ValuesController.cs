@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HockeyApp.API.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HockeyApp.API.Controllers
 {
+    [Authorize] // Authorization, must be logged in. (attribute)
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
@@ -34,6 +36,7 @@ namespace HockeyApp.API.Controllers
 
         // GET api/values/5
         //Return Null is better than returning an exception since exceptions are expensive
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetValue(int id)
         {

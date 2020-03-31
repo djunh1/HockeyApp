@@ -9,5 +9,7 @@ namespace HockeyApp.API.Data
         
         //Name of table when scaffold database
         public DbSet<Value> Values {get; set;}
+        
+        public DbSet<User> Users { get; set; }
     }
 }
