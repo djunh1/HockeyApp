@@ -25,7 +25,8 @@ namespace HockeyApp.API.Controllers
 
         }
         // GET api/values (use the http)
-        //Use asynch whenever possible.  Easy to implement, and inexpensive.
+        // Use asynch whenever possible.  Easy to implement, and inexpensive.
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetValues()
         {
