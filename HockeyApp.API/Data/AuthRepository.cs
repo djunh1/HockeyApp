@@ -43,11 +43,11 @@ namespace HockeyApp.API.Data
 
         public async Task<User> Register(User user, string password)
         {
-            byte[] passwordHarsh, passwordSalt;
+            byte[] passwordHash, passwordSalt;
             // Passing a reference to those variables using out
-            CreatePasswordHash(password, out passwordHarsh, out passwordSalt);
+            CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-            user.PasswordHash = passwordHarsh;
+            user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
 
             await _context.Users.AddAsync(user);
@@ -56,13 +56,13 @@ namespace HockeyApp.API.Data
             return user;
         }
 
-        private void CreatePasswordHash(string password, out byte[] passwordHarsh, out byte[] passwordSalt)
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             // Anything in Using function is disposed when finished
             using(var hmac = new System.Security.Cryptography.HMACSHA512()){
                 passwordSalt = hmac.Key;
                 //Encode the password into a byte array, use encoding
-                passwordHarsh = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             } 
         }
 

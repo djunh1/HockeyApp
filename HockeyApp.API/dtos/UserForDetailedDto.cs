@@ -1,25 +1,13 @@
 using System;
 using System.Collections.Generic;
+using HockeyApp.API.Models;
 
-namespace HockeyApp.API.Models
+namespace HockeyApp.API.dtos
 {
-    public class User
+    public class UserForDetailedDto
     {
         public int Id { get; set; }
         public string Username { get; set; }
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
-
-        // Stripe
-        public string StripeId { get; set; }
-        public string MerchantId { get; set; }
-
-        // Twilio 
-        public string PhoneNumber { get; set; }
-        public string PhonePin { get; set; }
-        public bool PhoneVerified { get; set; }
-
-        // Only for verified rink
         public string City { get; set; }
         public string State { get; set; }
         public string Country { get; set; }
@@ -29,16 +17,11 @@ namespace HockeyApp.API.Models
         public string Description { get; set; }
         public string RinkInquiries { get; set; }
         public string RinkAmenities{ get; set; }
-
-        // All Users
         public string KnownAs { get; set; }
         public string PlayerPosition { get; set; }
-        public ICollection<Photo> Photos { get; set; }
-
-        // Dates
+        public string PhotoUrl { get; set; }
+        public ICollection<PhotosForDetailedDto> Photos { get; set; }
         public DateTime Created { get; set; }
         public DateTime LastActive { get; set; }
-
-        
     }
 }

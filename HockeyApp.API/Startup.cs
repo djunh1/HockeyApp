@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using HockeyApp.API.Data;
 using HockeyApp.API.helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -35,10 +36,15 @@ namespace HockeyApp.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(opt => {
+                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+            services.AddControllers().AddNewtonsoftJson(); // Over rides the regular JSON support in controllers
             services.AddCors();//Allow client to communicate with this API
+            services.AddAutoMapper(typeof(RinkRepository).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>();  //Service is created once per request.  Uses same instances within other calls in same request
-            
+            services.AddScoped<IRinkRepository, RinkRepository>();
+
             // Allow dot net to handle JWT authentication - authentication scheme
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options => {
