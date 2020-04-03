@@ -7,6 +7,9 @@ import { AuthGuard } from './_guards/auth.guard';
 import { RinkDetailComponent } from './rinks/rink-detail/rink-detail.component';
 import { RinkDetailResolver } from './_resolver/rink-details.resolver';
 import { RinkListResolver } from './_resolver/rink-list-resolver';
+import { RinkEditComponent } from './rinks/rink-edit/rink-edit.component';
+import { RinkEditResolver } from './_resolver/rink-edit.resolver';
+import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 
 
 export const appRoutes: Routes = [
@@ -16,12 +19,32 @@ export const appRoutes: Routes = [
         runGuardsAndResolvers: 'always',
         canActivate: [AuthGuard],
         children: [
-            {path: 'rinks', component: RinkListComponent,
-                                 resolve: {users: RinkListResolver}},
-            {path: 'rinks/:id', component: RinkDetailComponent,
-                                 resolve: {user: RinkDetailResolver}}, // Add the id param we need for the loadUser method
-            {path: 'messages', component: MessagesComponent},
-            {path: 'lists', component: ListsComponent},
+            {
+                path: 'rinks',
+                component: RinkListComponent,
+                resolve: {users: RinkListResolver}
+            },
+            // Add the id param we need for the loadUser method
+            {
+                path: 'rinks/:id',
+                component: RinkDetailComponent,
+                resolve: {user: RinkDetailResolver}
+            },
+            // No need to pass ID, use the token instead
+            {
+                path: 'rink/edit',
+                component: RinkEditComponent,
+                resolve: {user: RinkEditResolver},
+                canDeactivate: [PreventUnsavedChanges]
+            },
+            {
+                path: 'messages',
+                component: MessagesComponent
+            },
+            {
+                path: 'lists',
+                component: ListsComponent
+            },
         ]
     },
     {path: '**', redirectTo: '', pathMatch: 'full'},

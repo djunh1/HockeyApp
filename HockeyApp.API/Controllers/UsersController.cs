@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using HockeyApp.API.Data;
@@ -39,5 +41,30 @@ namespace HockeyApp.API.Controllers
             var userToReturn = _mapper.Map<UserForDetailedDto>(user);
             return Ok(userToReturn);
         }
+
+        //STEP 3- Updating on API (Next SPA, UserService)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdateDto){
+            // Check token ID
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
+                return Unauthorized();
+            }
+
+            // Get the user from the Repo
+            var userFromRepo = await _repo.GetUser(id);
+
+            // Update values from DTO and upate them on the repo user
+            _mapper.Map(userForUpdateDto, userFromRepo);
+
+            //Save changes
+
+            if (await _repo.SaveAll()){
+                return NoContent();
+            } 
+
+            throw new Exception($"Updatating user with {id} failed while saving.");
+
+        }
+
     }
 }

@@ -5,20 +5,22 @@ import { UserService } from '../_services/user.service';
 import { AlertifyService } from '../_services/alertify.service';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { AuthService } from '../_services/auth.service';
 
 @Injectable()
+export class RinkEditResolver implements Resolve<User>{
+    // Need the auth serice for this resolver, use the token to get the ID 
+    constructor(
+        private userService: UserService,
+        private authService: AuthService,
+        private router: Router,
+        private alertify: AlertifyService ){}
 
-export class RinkDetailResolver implements Resolve<User>{
-    constructor(private userService: UserService, private router: Router, private alertify: AlertifyService){}
-
-    // Fetch users data, then catch error and return out of method if there is a problem.
-    // Must provide a resolver to app.ts, and routes.
-    // This helps get the data before we get the route itself, so we dont need to use ? in the views.
-    resolve(route: ActivatedRouteSnapshot) : Observable<User> {
+    resolve(route: ActivatedRouteSnapshot): Observable<User> {
         // This automatically subscribes to the method, so we do not need to subscripe to it.
-        return this.userService.getUser(route.params['id']).pipe(
+        return this.userService.getUser(this.authService.decodedToken.nameid).pipe(
             catchError(error => {
-                this.alertify.error('Problem Retrieving Data');
+                this.alertify.error('Problem retrieving your data');
                 this.router.navigate(['/members']);
                 return of(null); // of is an observable
             })

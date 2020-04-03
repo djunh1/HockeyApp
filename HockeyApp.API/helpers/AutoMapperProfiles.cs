@@ -8,7 +8,7 @@ namespace HockeyApp.API.helpers
     public class AutoMapperProfiles : Profile
     {
         public AutoMapperProfiles()
-        {
+        {   
             // Defining the photo URL property, and were the information comes from
             CreateMap<User, UserForListDto>()
                 .ForMember(dest => dest.PhotoUrl, 
@@ -17,6 +17,9 @@ namespace HockeyApp.API.helpers
                 .ForMember(dest => dest.PhotoUrl,
                             opt => opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url));
             CreateMap<Photo, PhotosForDetailedDto>();
+
+            //STEP 2 - updating on API (Next: controller)
+            CreateMap<UserForUpdateDto, User>();
         }
     }
 }
