@@ -1,0 +1,60 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+        <img src="{{user.photoUrl}}" alt="{{user.knownAs}}" class="card-img-top img-thumbnail">
+        <div class="card-body">
+          <div>
+            <strong>Location:</strong> 
+            <p>{{user.city}}, {{user?.country}} </p>
+          </div>
+          <div>
+            <strong>Position: </strong>
+            <p>{{ user.playerPosition }}</p>
+          </div>
+          <div>
+            <strong>Last Active: </strong>
+            <p>{{ user.lastActive }}</p>
+          </div>
+          <div>
+            <strong>Member Since: </strong>
+            <p>{{ user.created }}</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="btn-group d-flex">
+            <button class="btn btn-primary mr-5 w-100">
+                Follow
+            </button>
+            <button class="btn btn-success w-100">
+               Message
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-sm-8">
+      <div class="tab-panel">
+        <tabset class="rink-tabset">
+          <tab heading="{{user.knownAs}}">
+            <h4>Description</h4>
+            <p> {{ user.description }} </p>
+          </tab>
+          <tab heading="Anemities">
+            <h4>Amenities</h4>
+            <p> {{ user.rinkAmenities }} </p>
+          </tab>
+          <tab heading="Photos">
+            <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+            
+          </tab>
+
+          <tab heading="Messages">
+            <p> TODO: Messages</p>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+</div>
