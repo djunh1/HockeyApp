@@ -13,6 +13,7 @@ import { UserService } from 'src/app/_services/user.service';
 })
 export class RinkEditComponent implements OnInit {
   user: User;
+  photoUrl: string;
   @ViewChild('editForm', { static: true }) editForm: NgForm;
   // If the user closes a browser tab
   @HostListener('window:beforeunload', ['$event'])
@@ -33,6 +34,7 @@ export class RinkEditComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.user = data['user'];
     });
+    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
   }
 
   // STEP 5 - Updating information (Last section)
@@ -45,5 +47,9 @@ export class RinkEditComponent implements OnInit {
     }, error => {
       this.alertify.error(error);
     });
+  }
+
+  updateMainPhoto(photoUrl) {
+    this.user.photoUrl = photoUrl;
   }
 }

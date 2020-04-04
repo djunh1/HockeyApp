@@ -18,8 +18,12 @@ namespace HockeyApp.API.helpers
                             opt => opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url));
             CreateMap<Photo, PhotosForDetailedDto>();
 
-            //STEP 2 - updating on API (Next: controller)
+            //STEP 2 - CLOUD STORAGE - updating on API (Next: controller)
             CreateMap<UserForUpdateDto, User>();
+
+            //Step 10 CLOUD STORAGE , can update controller
+            CreateMap<Photo, PhotoForReturnDto>();
+            CreateMap<PhotoForCreationDto, Photo>();
         }
     }
 }

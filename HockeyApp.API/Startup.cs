@@ -41,6 +41,9 @@ namespace HockeyApp.API
             });
             services.AddControllers().AddNewtonsoftJson(); // Over rides the regular JSON support in controllers
             services.AddCors();//Allow client to communicate with this API
+
+            // Step 2 - CLOUD STORAGE: configure settings from the app settings json file
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper(typeof(RinkRepository).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>();  //Service is created once per request.  Uses same instances within other calls in same request
             services.AddScoped<IRinkRepository, RinkRepository>();

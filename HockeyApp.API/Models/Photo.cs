@@ -13,5 +13,8 @@ namespace HockeyApp.API.Models
         // Cascade Delete
         public User User { get; set; }
         public int UserId { get; set; }
+
+        // Step 3 - CLOUD STORAGE - we need an id column in our photo table (Next perform migration, Next PhotosController)
+        public string PublicID { get; set; }
     }
 }

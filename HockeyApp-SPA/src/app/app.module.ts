@@ -5,6 +5,7 @@ import { FormsModule} from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
+import { FileUploadModule } from 'ng2-file-upload';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -26,6 +27,8 @@ import { RinkListResolver } from './_resolver/rink-list-resolver';
 import { RinkEditComponent } from './rinks/rink-edit/rink-edit.component';
 import { RinkEditResolver } from './_resolver/rink-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
+import { PhotoEditorComponent } from './rinks/photo-editor/photo-editor.component';
+
 
 
 export function tokenGetter() {
@@ -50,7 +53,8 @@ export class CustomHammerConfig extends HammerGestureConfig {
       RinkListComponent,
       RinkCardComponent,
       RinkDetailComponent,
-      RinkEditComponent
+      RinkEditComponent,
+      PhotoEditorComponent
    ],
    imports: [
       BrowserModule,
@@ -61,6 +65,7 @@ export class CustomHammerConfig extends HammerGestureConfig {
       TabsModule.forRoot(),
       RouterModule.forRoot(appRoutes),
       NgxGalleryModule,
+      FileUploadModule,
       JwtModule.forRoot({
          config: {
             tokenGetter: tokenGetter,
