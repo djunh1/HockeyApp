@@ -56,20 +56,28 @@ export class PhotoEditorComponent implements OnInit {
         };
 
         this.photos.push(photo);
+        if (photo.isMain) {
+          this.authservice.changeMemberPhoto(photo.url);
+          this.authservice.currentUser.photoUrl = photo.url;
+          localStorage.setItem('user', JSON.stringify(this.authservice.currentUser));
+        }
       }
     };
   }
 
   setMainPhoto(photo: Photo) {
-    this.userService.setMainPhoto(this.authservice.decodedToken.nameid, photo.id).subscribe(() => {
-      // Use array filter to find the main photo (returns a copy of photos array, but filters anything that doesn't match)
-      this.currentMain = this.photos.filter(p => p.isMain === true)[0];
-      this.currentMain.isMain = false;
-      photo.isMain = true;
+    this.userService
+      .setMainPhoto(this.authservice.decodedToken.nameid, photo.id)
+      .subscribe(
+        () => {
+        // Use array filter to find the main photo (returns a copy of photos array, but filters anything that doesn't match)
+        this.currentMain = this.photos.filter(p => p.isMain === true)[0];
+        this.currentMain.isMain = false;
+        photo.isMain = true;
       // this.getMemberPhotoChange.emit(photo.url); // For output, or to parent component.  Emits an event
-      this.authservice.changeMemberPhoto(photo.url);
-      this.authservice.currentUser.photoUrl = photo.url;
-      localStorage.setItem('user', JSON.stringify(this.authservice.currentUser));
+        this.authservice.changeMemberPhoto(photo.url);
+        this.authservice.currentUser.photoUrl = photo.url;
+        localStorage.setItem('user', JSON.stringify(this.authservice.currentUser));
     }, error => {
       this.alertify.error(error);
     });

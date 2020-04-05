@@ -30,20 +30,20 @@ export class AuthService {
       .pipe(
         map((response: any) => {
           const user = response;
-          if (user){
+          if (user) {
             localStorage.setItem('token', user.token);
             localStorage.setItem('user', JSON.stringify(user.user));  // Object from server, convert to string
             this.decodedToken = this.jwtHelper.decodeToken(user.token);
             this.currentUser = user.user;
-            this.changeMemberPhoto(this.currentUser.photoUrl); // When url is updated, so is our user
+            this.changeMemberPhoto(this.currentUser.photoUrl); // When url is updated 
           }
        })
       );
   }
 
-  register(model: any){
+  register(user: User){
     // Must subscribe to the observable in the component which uses this.
-    return this.http.post(this.baseUrl + 'register', model);
+    return this.http.post(this.baseUrl + 'register', user);
   }
 
   loggedIn(){

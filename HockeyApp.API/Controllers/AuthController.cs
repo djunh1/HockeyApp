@@ -45,16 +45,14 @@ namespace HockeyApp.API.Controllers
             }
 
             // Create the new user
-            var userToCreate = new User
-            {
-                // Make sure we are setting to the column name
-                Username = userForRegisterDto.Username
-            };
+            var userToCreate = _mapper.Map<User>(userForRegisterDto);
 
             var createdUser = await _repo.Register(userToCreate, userForRegisterDto.Password);
 
-            // Send route back to the client - 201 = statusAt Route, but a bit of a cheat
-            return StatusCode(201);
+            var userToReturn = _mapper.Map<UserForDetailedDto>(createdUser);
+
+            // First arg = route name
+            return CreatedAtRoute("GetUser", new { controller = "Users", id = createdUser.Id}, userToReturn);
         }
 
         [HttpPost("login")]

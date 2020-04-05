@@ -24,6 +24,7 @@ namespace HockeyApp.API.helpers
             //Step 10 CLOUD STORAGE , can update controller
             CreateMap<Photo, PhotoForReturnDto>();
             CreateMap<PhotoForCreationDto, Photo>();
+            CreateMap<UserForRegisterDto, User>();
         }
     }
 }

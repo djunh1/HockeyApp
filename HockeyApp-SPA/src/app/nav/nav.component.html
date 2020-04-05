@@ -18,7 +18,7 @@
           dropdown>
 
           <span class="mr-2">
-            <img src="{{photoUrl}}" alt="">
+            <img src="{{photoUrl  || '../../assets/images/user.png' }}" alt="">
           </span>
       <a class=" dropdown-toggle text-light" dropdownToggle (click)="false">
         {{ authService.decodedToken.unique_name | titlecase }}
