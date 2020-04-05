@@ -7,8 +7,11 @@ import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { FileUploadModule } from 'ng2-file-upload';
+import { TimeagoModule } from 'ngx-timeago';
+
 
 import { AppComponent } from './app.component';
+import { appRoutes } from './routes';
 import { NavComponent } from './nav/nav.component';
 import { AuthService } from './_services/auth.service';
 import { HomeComponent } from './home/home.component';
@@ -20,7 +23,6 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { RinkListComponent } from './rinks/rink-list/rink-list.component';
-import { appRoutes } from './routes';
 import { RinkCardComponent } from './rinks/rink-card/rink-card.component';
 import { RinkDetailComponent } from './rinks/rink-detail/rink-detail.component';
 import { RinkDetailResolver } from './_resolver/rink-details.resolver';
@@ -55,7 +57,7 @@ export class CustomHammerConfig extends HammerGestureConfig {
       RinkCardComponent,
       RinkDetailComponent,
       RinkEditComponent,
-      PhotoEditorComponent
+      PhotoEditorComponent,
    ],
    imports: [
       BrowserModule,
@@ -68,6 +70,7 @@ export class CustomHammerConfig extends HammerGestureConfig {
       BsDatepickerModule.forRoot(),
       BsDropdownModule.forRoot(),
       TabsModule.forRoot(),
+      TimeagoModule.forRoot(),
       RouterModule.forRoot(appRoutes),
       NgxGalleryModule,
       FileUploadModule,

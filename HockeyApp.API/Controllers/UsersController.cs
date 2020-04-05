@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using HockeyApp.API.Data;
 using HockeyApp.API.dtos;
+using HockeyApp.API.helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HockeyApp.API.Controllers
 {
+    [ServiceFilter(typeof(LogUserActivity))] // Can use this action filter anytime this controller is accessed
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]

@@ -47,6 +47,7 @@ namespace HockeyApp.API
             services.AddAutoMapper(typeof(RinkRepository).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>();  //Service is created once per request.  Uses same instances within other calls in same request
             services.AddScoped<IRinkRepository, RinkRepository>();
+            services.AddScoped<LogUserActivity>();
 
             // Allow dot net to handle JWT authentication - authentication scheme
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
