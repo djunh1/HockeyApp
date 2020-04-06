@@ -27,10 +27,22 @@ namespace HockeyApp.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> getUsers()
+        public async Task<IActionResult> getUsers([FromQuery]UserParams userParams)
         {
-            var users = await _repo.GetUsers();
+            
+           // For Filtering
+            var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userFromRepo = await _repo.GetUser(currentUserId);
+            userParams.UserId = currentUserId;
+
+            if (string.IsNullOrEmpty(userParams.PlayerPosition)){
+                userParams.PlayerPosition = userFromRepo.PlayerPosition == "Forward" ? "Defence" : "Forward";
+            }
+            var users = await _repo.GetUsers(userParams);
             var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
+
+            // Passing this information in the response header
+            Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
             return Ok(usersToReturn);
         }
 

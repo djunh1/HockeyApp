@@ -9,6 +9,7 @@ namespace HockeyApp.API.dtos
         public string Username { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
+        public string PlayerPosition { get; set; }
         public string Address { get; set; }
         public string KnownAs { get; set; }
         public DateTime Created { get; set; }

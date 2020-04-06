@@ -28,7 +28,15 @@
       {{user.knownAs}}
     </h6>
     <p class="card-text text-muted text-center">
-        {{user.city}}
+        {{user.playerPosition}}
     </p>
+    <p class="card-text text-muted text-center">
+      Created: 
+      {{user.created | date}}
+  </p>
+  <p class="card-text text-muted text-center">
+    Last Active: 
+    {{user.lastActive | date}}
+</p>
   </div>
 </div>

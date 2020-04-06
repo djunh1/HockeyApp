@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using HockeyApp.API.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using HockeyApp.API.helpers;
+using System;
 
 namespace HockeyApp.API.Data
 {
@@ -46,10 +48,36 @@ namespace HockeyApp.API.Data
             return user;
         }
 
-        public async Task<IEnumerable<User>> GetUsers()
+        public async Task<PagedList<User>> GetUsers(UserParams userParams)
+
         {
-            var users = await _context.Users.Include(p => p.Photos).ToListAsync();
-            return users;
+            // Add the AsQueryable so can use the Where caluse
+            var users = _context.Users.Include(p => p.Photos).OrderByDescending(u => u.LastActive).AsQueryable();
+
+            // Modify what we return
+            users = users.Where(u => u.Id != userParams.UserId);
+            users = users.Where(u => u.PlayerPosition == userParams.PlayerPosition);
+
+            // if (userParams.MinTime != 0 || userParams.MaxTime != 5) {
+            //     var minDate = DateTime.Today.AddYears(-userParams.MaxTime-1);
+            //     var maxDate = DateTime.Today.AddYears(-userParams.MinTime);
+            //     users = users.Where(u => u.LastActive >= minDate && u.LastActive <= maxDate);
+            // }
+
+            if (!string.IsNullOrEmpty(userParams.OrderBy)){
+                switch (userParams.OrderBy){
+                    case "created":
+                        users = users.OrderByDescending(u => u.Created);
+                        break;
+                    default:
+                        users = users.OrderByDescending(u => u.LastActive);
+                        break;
+                }
+            }
+
+            
+
+            return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<bool> SaveAll()
