@@ -35,6 +35,12 @@ namespace HockeyApp.API.Models
         public string PlayerPosition { get; set; }
         public ICollection<Photo> Photos { get; set; }
 
+        // FOLLOWERS 2/9
+
+        public ICollection<Follow> Followers { get; set; } // Likers
+        public ICollection<Follow> Followeds { get; set; } // Likees
+
+
         // Dates
         public DateTime Created { get; set; }
         public DateTime LastActive { get; set; }

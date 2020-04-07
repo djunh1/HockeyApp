@@ -17,5 +17,8 @@ namespace HockeyApp.API.Data
          // Step 7 CLOUD STORAGE - create signature (next implement method in the rink repo)
          Task<Photo> GetPhoto(int id);
          Task<Photo> GetMainPhotoForUser(int userId);
+
+        // FOLLOW 4/9
+         Task<Follow> GetFollow(int UserId, int recipientId);
     }
 }

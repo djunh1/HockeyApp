@@ -33,6 +33,7 @@ import { RinkEditComponent } from './rinks/rink-edit/rink-edit.component';
 import { RinkEditResolver } from './_resolver/rink-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './rinks/photo-editor/photo-editor.component';
+import { ListsResolver } from './_resolver/lists.resolver';
 
 
 
@@ -93,6 +94,7 @@ export class CustomHammerConfig extends HammerGestureConfig {
       RinkListResolver,
       RinkEditResolver,
       PreventUnsavedChanges,
+      ListsResolver,
       {provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig}
    ],
    bootstrap: [

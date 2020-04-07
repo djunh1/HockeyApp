@@ -6,6 +6,7 @@ using AutoMapper;
 using HockeyApp.API.Data;
 using HockeyApp.API.dtos;
 using HockeyApp.API.helpers;
+using HockeyApp.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -77,6 +78,39 @@ namespace HockeyApp.API.Controllers
             } 
 
             throw new Exception($"Updatating user with {id} failed while saving.");
+
+        }
+
+        // FOLLOW 6/9
+        [HttpPost("{id}/follow/{recipientId}")]
+        public async Task<IActionResult> FollowUser(int id, int recipientId){
+
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
+                return Unauthorized();
+            }
+
+            var follow = await _repo.GetFollow(id, recipientId);
+
+            if ( follow != null){
+                return BadRequest("You are already following this user.");
+            }
+
+            if (await _repo.GetUser(recipientId) == null) {
+                return NotFound();
+            }
+
+            follow = new Follow {
+                FollowerId = id,
+                FollowedId = recipientId
+            };
+
+            _repo.Add<Follow>(follow);
+
+            if ( await _repo.SaveAll()){
+                return Ok();
+            }
+
+            return BadRequest("Failed to follow user.");
 
         }
 

@@ -28,6 +28,14 @@ namespace HockeyApp.API.Data
             _context.Remove(entity);
         }
 
+        public async Task<Follow> GetFollow(int userId, int recipientId)
+        {
+            // FOLLOW 5/x
+
+            return await _context.Follows
+                .FirstOrDefaultAsync(u => u.FollowerId == userId && u.FollowedId == recipientId);
+        }
+
         public async Task<Photo> GetMainPhotoForUser(int userId)
         {
             return await _context.Photos.Where(u => u.UserId == userId).FirstOrDefaultAsync(p => p.IsMain);
@@ -58,11 +66,16 @@ namespace HockeyApp.API.Data
             users = users.Where(u => u.Id != userParams.UserId);
             users = users.Where(u => u.PlayerPosition == userParams.PlayerPosition);
 
-            // if (userParams.MinTime != 0 || userParams.MaxTime != 5) {
-            //     var minDate = DateTime.Today.AddYears(-userParams.MaxTime-1);
-            //     var maxDate = DateTime.Today.AddYears(-userParams.MinTime);
-            //     users = users.Where(u => u.LastActive >= minDate && u.LastActive <= maxDate);
-            // }
+            // FOLLOWERS 8/9
+            if (userParams.Followers){
+                var userFollowers = await GetUserFollows(userParams.UserId, userParams.Followers);
+                users = users.Where(u => userFollowers.Contains(u.Id)); // Filter out multiple Ids here.
+            }
+
+            if (userParams.Followeds){
+                var userFolloweds = await GetUserFollows(userParams.UserId, userParams.Followers);
+                users = users.Where(u => userFolloweds.Contains(u.Id));
+            }
 
             if (!string.IsNullOrEmpty(userParams.OrderBy)){
                 switch (userParams.OrderBy){
@@ -78,6 +91,20 @@ namespace HockeyApp.API.Data
             
 
             return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
+        }
+
+        // FOLLOWERS 9/9 - returning integers, use the Select call for that.
+        private async Task<IEnumerable<int>> GetUserFollows(int id, bool followers){
+            var user = await _context.Users
+                .Include(x => x.Followers)
+                .Include(x => x.Followeds)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+                if (followers) {
+                    return user.Followers.Where(u => u.FollowedId == id).Select(i => i.FollowerId);
+                } else {
+                    return user.Followeds.Where(u => u.FollowerId == id).Select(i => i.FollowedId);
+                }
         }
 
         public async Task<bool> SaveAll()

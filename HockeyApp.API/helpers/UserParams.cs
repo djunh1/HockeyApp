@@ -18,6 +18,11 @@ namespace HockeyApp.API.helpers
         public int MinTime { get; set; } = 0; // default time one year
         public int MaxTime { get; set; } = 6; 
         public string OrderBy { get; set; }
+
+        // FOLLOWERS 7/9
+
+        public bool Followeds { get; set; } = false; // Likee
+        public bool Followers { get; set; } = false; // Liker
         
     }
 }

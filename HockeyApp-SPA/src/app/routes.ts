@@ -10,6 +10,7 @@ import { RinkListResolver } from './_resolver/rink-list-resolver';
 import { RinkEditComponent } from './rinks/rink-edit/rink-edit.component';
 import { RinkEditResolver } from './_resolver/rink-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
+import { ListsResolver } from './_resolver/lists.resolver';
 
 
 export const appRoutes: Routes = [
@@ -43,7 +44,8 @@ export const appRoutes: Routes = [
             },
             {
                 path: 'lists',
-                component: ListsComponent
+                component: ListsComponent,
+                resolve: { users: ListsResolver }
             },
         ]
     },

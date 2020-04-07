@@ -16,7 +16,7 @@ export class UserService {
   // Now are able to access methods from http object
   constructor(private http: HttpClient) { }
 
-  getUsers(page?, itemsPerPage?, userParams?): Observable<PaginatedResult<User[]>> {
+  getUsers(page?, itemsPerPage?, userParams?, followsParams?): Observable<PaginatedResult<User[]>> {
     const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
 
     let params = new HttpParams();
@@ -29,6 +29,14 @@ export class UserService {
     if (userParams != null){
       params = params.append('playerPosition', userParams.playerPosition);
       params = params.append('orderBy', userParams.orderBy);
+    }
+
+    if (followsParams === 'Followers'){
+      params = params.append('followers', 'true');
+    }
+
+    if (followsParams === 'Followeds'){
+      params = params.append('followeds', 'true');
     }
 
     return this.http
@@ -61,6 +69,10 @@ export class UserService {
 
   deletePhoto(userId: number, id: number){
     return this.http.delete(this.baseUrl + 'users/' + userId + '/photos/' + id);
+  }
+
+  sendFollow(id: number, recipientId: number){
+    return this.http.post(this.baseUrl + 'users/' + id + '/follow/' + recipientId, {});
   }
 
 }
