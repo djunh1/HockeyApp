@@ -14,6 +14,8 @@ namespace HockeyApp.API.Data
         // FOLLOWER 3/9 - Configuring the relationships (many to many)
         public DbSet<Follow> Follows { get; set; }
 
+        public DbSet<Message> Messages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder){
             builder.Entity<Follow>()
                 .HasKey(k => new {k.FollowerId, k.FollowedId});
@@ -30,6 +32,18 @@ namespace HockeyApp.API.Data
                 .WithMany(u => u.Followeds)
                 .HasForeignKey(u => u.FollowerId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Message>()
+                .HasOne(u => u.Sender)
+                .WithMany(m => m.MessagesSent)
+                .OnDelete(DeleteBehavior.Restrict);
+
+             builder.Entity<Message>()
+                .HasOne(u => u.Recipient)
+                .WithMany(m => m.MessagesReceived)
+                .OnDelete(DeleteBehavior.Restrict);   
         }
+
+            
     }
 }

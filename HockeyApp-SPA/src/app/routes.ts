@@ -11,6 +11,7 @@ import { RinkEditComponent } from './rinks/rink-edit/rink-edit.component';
 import { RinkEditResolver } from './_resolver/rink-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { ListsResolver } from './_resolver/lists.resolver';
+import { MessagesResolver } from './_resolver/messages.resolver';
 
 
 export const appRoutes: Routes = [
@@ -40,7 +41,8 @@ export const appRoutes: Routes = [
             },
             {
                 path: 'messages',
-                component: MessagesComponent
+                component: MessagesComponent,
+                resolve: {messages: MessagesResolver}
             },
             {
                 path: 'lists',

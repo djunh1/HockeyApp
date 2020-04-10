@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from 'src/app/_models/user';
 import { UserService } from 'src/app/_services/user.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
+import { TabsetComponent } from 'ngx-bootstrap/tabs/public_api';
 
 @Component({
   selector: 'app-rink-detail',
@@ -11,6 +12,8 @@ import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov
   styleUrls: ['./rink-detail.component.css']
 })
 export class RinkDetailComponent implements OnInit {
+  @ViewChild('memberTabs', { static: true }) memberTabs: TabsetComponent;
+  // @ViewChild('memberTabs', {static: true}) memberTabs: TabsetComponent;
   user: User;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
@@ -40,6 +43,11 @@ export class RinkDetailComponent implements OnInit {
       this.user = data['user'];
     });
 
+    this.route.queryParams.subscribe( params => {
+      const selectTab = params['tab'];
+      this.memberTabs.tabs[selectTab > 0 ? selectTab : 0].active = true;
+    })
+
     this.galleryOptions = [
       {
         width: '500px',
@@ -64,6 +72,10 @@ export class RinkDetailComponent implements OnInit {
     }
     console.log(imageUrls);
     return imageUrls;
+  }
+
+  selectTab(tabId: number) {
+    this.memberTabs.tabs[tabId].active = true;
   }
 
   // Need to pass in params in the route, param comes in as string, convert it to int using +

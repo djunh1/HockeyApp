@@ -26,7 +26,7 @@
             <button class="btn btn-primary mr-5 w-100">
                 Follow
             </button>
-            <button class="btn btn-success w-100">
+            <button class="btn btn-success w-100" (click)="selectTab(3)">
                Message
             </button>
           </div>
@@ -36,7 +36,7 @@
     </div>
     <div class="col-sm-8">
       <div class="tab-panel">
-        <tabset class="rink-tabset">
+        <tabset class="rink-tabset" #memberTabs>
           <tab heading="{{user.knownAs}}">
             <h4>Description</h4>
             <p> {{ user.description }} </p>
@@ -51,7 +51,7 @@
           </tab>
 
           <tab heading="Messages">
-            <p> TODO: Messages</p>
+            <app-rink-messages [recipientId]="user.id"></app-rink-messages>
           </tab>
         </tabset>
       </div>
