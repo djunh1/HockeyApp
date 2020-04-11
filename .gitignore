@@ -6,5 +6,6 @@ obj
 *.db-wal
 HockeyApp.API/hockeyapp.db-shm
 HockeyApp.API/hockeyapp.db-wal
+wwwroot
 
 appsettings.json
