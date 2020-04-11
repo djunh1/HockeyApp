@@ -40,18 +40,14 @@ namespace HockeyApp.API.Controllers
 
             if (await _repo.UserExists(userForRegisterDto.Username))
             {
-                // Bad request from the ControllerBase class
                 return BadRequest("Username already exists.");
             }
 
             // Create the new user
             var userToCreate = _mapper.Map<User>(userForRegisterDto);
-
             var createdUser = await _repo.Register(userToCreate, userForRegisterDto.Password);
-
             var userToReturn = _mapper.Map<UserForDetailedDto>(createdUser);
 
-            // First arg = route name
             return CreatedAtRoute("GetUser", new { controller = "Users", id = createdUser.Id}, userToReturn);
         }
 

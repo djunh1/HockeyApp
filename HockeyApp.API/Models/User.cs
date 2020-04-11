@@ -17,15 +17,15 @@ namespace HockeyApp.API.Models
         // Twilio 
         public string PhoneNumber { get; set; }
         public string PhonePin { get; set; }
-        public bool PhoneVerified { get; set; }
+        public bool? PhoneVerified { get; set; }
 
         // Only for verified rink
         public string City { get; set; }
         public string State { get; set; }
         public string Country { get; set; }
         public string Address { get; set; }
-        public float Latitude { get; set; }
-        public float Longitude { get; set; }
+        public float? Latitude { get; set; }
+        public float? Longitude { get; set; }
         public string Description { get; set; }
         public string RinkInquiries { get; set; }
         public string RinkAmenities{ get; set; }
@@ -33,12 +33,12 @@ namespace HockeyApp.API.Models
         // All Users
         public string KnownAs { get; set; }
         public string PlayerPosition { get; set; }
-        public ICollection<Photo> Photos { get; set; }
+        public virtual ICollection<Photo> Photos { get; set; }
 
         // FOLLOWERS 2/9
 
-        public ICollection<Follow> Followers { get; set; } // Likers
-        public ICollection<Follow> Followeds { get; set; } // Likees
+        public virtual ICollection<Follow> Followers { get; set; } // Likers
+        public virtual ICollection<Follow> Followeds { get; set; } // Likees
 
 
         // Dates
@@ -46,8 +46,8 @@ namespace HockeyApp.API.Models
         public DateTime LastActive { get; set; }
 
         // Messages
-        public ICollection<Message> MessagesSent { get; set; }
-        public ICollection<Message> MessagesReceived { get; set; }
+        public virtual ICollection<Message> MessagesSent { get; set; }
+        public virtual ICollection<Message> MessagesReceived { get; set; }
 
         
     }

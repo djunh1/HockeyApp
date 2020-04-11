@@ -16,8 +16,8 @@ namespace HockeyApp.API.Data
         public async Task<User> Login(string username, string password)
         {
             // For Photos, we can use Include to attach photos to the user returned
-            var user = await _context.Users.Include(p => p.Photos).FirstOrDefaultAsync( x => x.Username == username);
-
+            // var user = await _context.Users.Include(p => p.Photos).FirstOrDefaultAsync( x => x.Username == username);
+            var user = await _context.Users.FirstOrDefaultAsync( x => x.Username == username);
             if (user == null){
                 return null;
             } // Controller can return a 401 if we get null here
